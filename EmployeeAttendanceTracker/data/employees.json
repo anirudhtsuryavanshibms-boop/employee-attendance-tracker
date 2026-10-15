@@ -1,0 +1,74 @@
+[
+  {
+    "id": "EMP002",
+    "name": "Priya Patel",
+    "department": "Human Resources",
+    "email": "priya.patel@corp.com",
+    "phone": "+91 98765 43211",
+    "designation": "HR Operations Manager",
+    "joiningDate": "2023-06-01"
+  },
+  {
+    "id": "EMP003",
+    "name": "Rohan Verma",
+    "department": "Engineering",
+    "email": "rohan.verma@corp.com",
+    "phone": "+91 98765 43212",
+    "designation": "Backend Developer",
+    "joiningDate": "2024-01-10"
+  },
+  {
+    "id": "EMP004",
+    "name": "Ananya Iyer",
+    "department": "Quality Assurance",
+    "email": "ananya.iyer@corp.com",
+    "phone": "+91 98765 43213",
+    "designation": "Lead QA Engineer",
+    "joiningDate": "2023-08-20"
+  },
+  {
+    "id": "EMP005",
+    "name": "Vikram Malhotra",
+    "department": "Operations",
+    "email": "vikram.m@corp.com",
+    "phone": "+91 98765 43214",
+    "designation": "Operations Analyst",
+    "joiningDate": "2024-02-01"
+  },
+  {
+    "id": "EMP006",
+    "name": "Sneha Reddy",
+    "department": "Product",
+    "email": "sneha.reddy@corp.com",
+    "phone": "+91 98765 43215",
+    "designation": "Technical Product Manager",
+    "joiningDate": "2023-11-12"
+  },
+  {
+    "id": "EMP007",
+    "name": "Karan Mehra",
+    "department": "Finance",
+    "email": "karan.mehra@corp.com",
+    "phone": "+91 98765 43216",
+    "designation": "Financial Controller",
+    "joiningDate": "2024-04-18"
+  },
+  {
+    "id": "EMP008",
+    "name": "Diya Sengupta",
+    "department": "Engineering",
+    "email": "diya.s@corp.com",
+    "phone": "+91 98765 43217",
+    "designation": "DevOps Specialist",
+    "joiningDate": "2024-05-02"
+  },
+  {
+    "id": "EMP009",
+    "name": "Anirudh Suryavanshi",
+    "department": "Engineering",
+    "email": "anirudhtsuryavanshi.bms@gmail.com",
+    "phone": "7021009854",
+    "designation": "IOT",
+    "joiningDate": "2026-10-15"
+  }
+]

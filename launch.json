@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "▶ Run Java Program (EmployeeAttendance)",
+      "request": "launch",
+      "mainClass": "EmployeeAttendance",
+      "projectName": "EmployeeAttendanceTracker",
+      "classPaths": [
+        "${workspaceFolder}/backend/src/original"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "▶ Start Full Web Application (Server)",
+      "program": "${workspaceFolder}/backend/server.js",
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal",
+      "restart": true
+    }
+  ]
+}

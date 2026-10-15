@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "1. Run Original Java Program (Console)",
+      "type": "shell",
+      "command": "javac \"backend/src/original/EmployeeAttendance.java\"; java -cp \"backend/src/original\" EmployeeAttendance",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "focus": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "2. Start Full Web App (Server + Dashboard)",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "focus": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "3. Compile Java Only (javac)",
+      "type": "shell",
+      "command": "javac \"backend/src/original/EmployeeAttendance.java\"",
+      "problemMatcher": ["$javac"]
+    }
+  ]
+}

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Attendance Tracker - Enterprise Management System</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- =====================================================================
+         SIDEBAR NAVIGATION
+         ===================================================================== -->
+    <aside class="app-sidebar" id="appSidebar">
+      <!-- Brand -->
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+        </div>
+        <div class="brand-info">
+          <h1>AttendanceTracker</h1>
+          <span>Enterprise Edition</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Navigation</div>
+        
+        <a class="nav-link active" data-view-target="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a class="nav-link" data-view-target="employees">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Employees</span>
+          <span class="badge" id="sidebarEmpBadge">8</span>
+        </a>
+
+        <a class="nav-link" data-view-target="attendance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Attendance</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Status Footer -->
+      <div class="sidebar-footer">
+        <div class="engine-status">
+          <span class="status-dot" id="engineStatusDot"></span>
+          <span id="engineStatusText">System Online</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =====================================================================
+         MAIN CONTENT AREA
+         ===================================================================== -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="page-title-group">
+            <h2 id="headerPageTitle">Attendance Dashboard</h2>
+            <p id="headerPageSubtitle">Real-time metrics, eligibility compliance, and activity overview</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Eligibility Threshold: <strong>≥ 75.0%</strong></span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="App.navigateTo('attendance')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Record Attendance</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ===================================================================
+           VIEW 1: DASHBOARD
+           =================================================================== -->
+      <div class="view-container active" id="view-dashboard">
+        
+        <!-- Quick Action Banner -->
+        <div class="action-banner">
+          <div class="action-banner-text">
+            <h3>Enterprise Employee Attendance & Compliance Platform</h3>
+            <p>Seamlessly track 5-day workforce attendance cycles, monitor department compliance, and evaluate employee eligibility.</p>
+          </div>
+          <div class="action-banner-btns">
+            <button class="btn btn-secondary btn-sm" onclick="App.openModal('addEmployeeModal')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>+ Add Employee</span>
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="App.navigateTo('attendance')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>Record Cycle</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-info">
+              <h4>Total Employees</h4>
+              <div class="metric-value" id="metricTotalEmployees">0</div>
+              <div class="metric-meta" style="color:#2563eb;">Active personnel registered</div>
+            </div>
+            <div class="metric-icon blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h4>Attendance Rate</h4>
+              <div class="metric-value" id="metricAvgRate">0.0%</div>
+              <div class="metric-meta" style="color:#10b981;">Average across all cycles</div>
+            </div>
+            <div class="metric-icon green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h4>Eligible Employees</h4>
+              <div class="metric-value" id="metricEligibleCount">0</div>
+              <div class="metric-meta" id="metricEligibleRate" style="color:#059669;">≥ 75% Requirement Met</div>
+            </div>
+            <div class="metric-icon green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h4>Not Eligible</h4>
+              <div class="metric-value" id="metricNotEligibleCount">0</div>
+              <div class="metric-meta" style="color:#ef4444;">&lt; 75% Attendance</div>
+            </div>
+            <div class="metric-icon red">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h4>Department Attendance Breakdown</h4>
+              <span class="badge-pill badge-neutral">Average % per Department</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="departmentChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <h4>Eligibility Compliance Ratio</h4>
+              <span class="badge-pill badge-neutral">75% Benchmark</span>
+            </div>
+            <div class="chart-canvas-wrapper">
+              <canvas id="complianceChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Table -->
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="section-title">
+              <h4 style="font-size: 15px; font-weight: 700;">Recent 5-Day Attendance Cycles</h4>
+              <p style="font-size: 12px; color: var(--text-muted);">Latest evaluations processed through the system</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="App.navigateTo('attendance')">
+              <span>View Full Ledger</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>5-Day Breakdown (P/A)</th>
+                  <th>Present Days</th>
+                  <th>Attendance %</th>
+                  <th>Status</th>
+                  <th>Evaluation Date</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardRecentTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================
+           VIEW 2: EMPLOYEES
+           =================================================================== -->
+      <div class="view-container" id="view-employees">
+        
+        <div class="section-header">
+          <div>
+            <h3>Employee Directory</h3>
+            <p>Maintain employee profiles, department assignments, and track attendance qualifications.</p>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="App.openModal('addEmployeeModal')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Add Employee</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="table-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="employeeSearchInput" placeholder="Search by name, ID, email, role...">
+            </div>
+            <div class="table-filters">
+              <select class="form-select" id="employeeDeptFilter">
+                <option value="">All Departments</option>
+              </select>
+              <select class="form-select" id="employeeStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="Eligible">Eligible (≥ 75%)</option>
+                <option value="Not Eligible">Not Eligible (&lt; 75%)</option>
+                <option value="No Records">No Records</option>
+              </select>
+              <span class="badge-pill badge-neutral" id="employeeTotalBadge">0 Employees</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Employee Name</th>
+                  <th>Department</th>
+                  <th>Designation</th>
+                  <th>Attendance %</th>
+                  <th>Eligibility Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="employeesTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================
+           VIEW 3: ATTENDANCE MANAGEMENT
+           =================================================================== -->
+      <div class="view-container" id="view-attendance">
+        
+        <div class="section-header">
+          <div>
+            <h3>Attendance Management</h3>
+            <p>Record 5-day attendance cycles using the user's exact Java program logic or manage existing records.</p>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-secondary btn-sm" id="btnExportCsv">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Export CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Attendance Recording Card -->
+        <div class="table-card" id="recordAttendanceCard" style="padding: 24px; margin-bottom: 30px;">
+          <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">Record 5-Day Attendance Cycle</h4>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+            Input employee attendance for a 5-day work week (P: Present / A: Absent). Computes overall percentage with a 75% eligibility benchmark.
+          </p>
+
+          <form id="recordAttendanceForm">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+              <div class="form-group">
+                <label>Select Employee <span class="required">*</span></label>
+                <select class="form-control" name="employeeId" id="attendanceEmployeeSelect" required>
+                  <option value="">-- Choose Employee --</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Cycle End Date</label>
+                <input type="date" class="form-control" name="cycleDate" id="attendanceDateInput">
+              </div>
+
+              <div class="form-group">
+                <label>Notes / Remarks</label>
+                <input type="text" class="form-control" name="notes" id="attendanceNotesInput" placeholder="Optional notes for this cycle">
+              </div>
+            </div>
+
+            <!-- 5-Day Interactive Buttons -->
+            <div class="form-group" style="margin-top: 10px;">
+              <label>Select Attendance for 5 Days (Click button to toggle Present / Absent):</label>
+              <div class="days-selector">
+                <div class="day-picker-col">
+                  <div class="day-picker-label">Day 1</div>
+                  <button type="button" class="day-toggle-btn present" data-day-index="0">P</button>
+                </div>
+                <div class="day-picker-col">
+                  <div class="day-picker-label">Day 2</div>
+                  <button type="button" class="day-toggle-btn present" data-day-index="1">P</button>
+                </div>
+                <div class="day-picker-col">
+                  <div class="day-picker-label">Day 3</div>
+                  <button type="button" class="day-toggle-btn present" data-day-index="2">P</button>
+                </div>
+                <div class="day-picker-col">
+                  <div class="day-picker-label">Day 4</div>
+                  <button type="button" class="day-toggle-btn present" data-day-index="3">P</button>
+                </div>
+                <div class="day-picker-col">
+                  <div class="day-picker-label">Day 5</div>
+                  <button type="button" class="day-toggle-btn present" data-day-index="4">P</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Calculation Preview -->
+            <div class="calculation-preview-box">
+              <div class="calc-preview-header">
+                <span>Live Attendance Preview</span>
+                <span class="badge-pill badge-neutral">5-Day Work Cycle</span>
+              </div>
+              <div class="calc-stats-row">
+                <div class="calc-stat-item">
+                  <span>Present Days</span>
+                  <strong id="previewPresentDays">5 / 5 Days</strong>
+                </div>
+                <div class="calc-stat-item">
+                  <span>Calculated Attendance</span>
+                  <strong id="previewPercentage">100.00%</strong>
+                </div>
+                <div class="calc-stat-item">
+                  <span>Eligibility Status</span>
+                  <strong id="previewStatus" style="color: #059669;">Eligible</strong>
+                </div>
+              </div>
+              <div class="calc-rule-note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>Company Attendance Policy: Employees with attendance ≥ 75.0% are classified as <strong>Eligible</strong> for benefits and bonuses.</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 18px; display: flex; align-items: center; justify-content: flex-end; gap: 12px;">
+              <button type="button" class="btn btn-secondary" onclick="AttendanceModule.resetCycleInputs()">Reset</button>
+              <button type="submit" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Submit & Record Attendance</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Attendance Records Ledger -->
+        <div class="table-card">
+          <div class="table-toolbar">
+            <div class="table-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="attendanceSearchInput" placeholder="Filter records by employee, ID, or department...">
+            </div>
+            <div class="table-filters">
+              <select class="form-select" id="attendanceStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="Eligible">Eligible (≥ 75%)</option>
+                <option value="Not Eligible">Not Eligible (&lt; 75%)</option>
+              </select>
+              <span class="badge-pill badge-neutral" id="attendanceTotalBadge">0 Records</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>5-Day Cycle</th>
+                  <th>Present</th>
+                  <th>Attendance %</th>
+                  <th>Status</th>
+                  <th>Date Logged</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="attendanceTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- =======================================================================
+       MODAL 1: ADD EMPLOYEE MODAL
+       ======================================================================= -->
+  <div class="modal-overlay" id="addEmployeeModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h4>Register New Employee</h4>
+        <button class="modal-close" onclick="App.closeModal('addEmployeeModal')">&times;</button>
+      </div>
+      <form id="addEmployeeForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Full Name <span class="required">*</span></label>
+            <input type="text" class="form-control" name="name" placeholder="e.g. Tanya Desai" required>
+            <div class="form-error">Please enter employee name.</div>
+          </div>
+
+          <div class="form-group">
+            <label>Department <span class="required">*</span></label>
+            <select class="form-control" name="department" required>
+              <option value="">-- Select Department --</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Quality Assurance">Quality Assurance</option>
+              <option value="Finance">Finance</option>
+              <option value="Operations">Operations</option>
+              <option value="Product">Product</option>
+            </select>
+            <div class="form-error">Please select a department.</div>
+          </div>
+
+          <div class="form-group">
+            <label>Designation / Job Role</label>
+            <input type="text" class="form-control" name="designation" placeholder="e.g. Systems Analyst">
+          </div>
+
+          <div class="form-group">
+            <label>Work Email</label>
+            <input type="email" class="form-control" name="email" placeholder="e.g. tanya.d@corp.com">
+            <div class="form-error">Invalid email address format.</div>
+          </div>
+
+          <div class="form-group">
+            <label>Contact Phone</label>
+            <input type="tel" class="form-control" name="phone" placeholder="e.g. +91 98765 00000">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('addEmployeeModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Employee Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 2: EDIT EMPLOYEE MODAL
+       ======================================================================= -->
+  <div class="modal-overlay" id="editEmployeeModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h4>Edit Employee Profile</h4>
+        <button class="modal-close" onclick="App.closeModal('editEmployeeModal')">&times;</button>
+      </div>
+      <form id="editEmployeeForm">
+        <input type="hidden" name="empId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Full Name <span class="required">*</span></label>
+            <input type="text" class="form-control" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label>Department <span class="required">*</span></label>
+            <select class="form-control" name="department" required>
+              <option value="Engineering">Engineering</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Quality Assurance">Quality Assurance</option>
+              <option value="Finance">Finance</option>
+              <option value="Operations">Operations</option>
+              <option value="Product">Product</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Designation</label>
+            <input type="text" class="form-control" name="designation">
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email">
+          </div>
+
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" class="form-control" name="phone">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('editEmployeeModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL 3: VIEW EMPLOYEE PROFILE MODAL
+       ======================================================================= -->
+  <div class="modal-overlay" id="viewEmployeeModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h4>Employee Profile Dossier</h4>
+        <button class="modal-close" onclick="App.closeModal('viewEmployeeModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: #2563eb; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">
+            EMP
+          </div>
+          <div>
+            <h3 id="viewEmpName" style="font-size: 18px; font-weight: 700; color: var(--text-main);">--</h3>
+            <span id="viewEmpId" class="badge-pill badge-neutral" style="font-family: var(--font-mono); margin-top: 4px;">--</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13.5px;">
+          <div>
+            <span style="color: var(--text-muted); font-size: 12px; display: block;">Department</span>
+            <strong id="viewEmpDept">--</strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); font-size: 12px; display: block;">Designation</span>
+            <strong id="viewEmpDesignation">--</strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); font-size: 12px; display: block;">Email</span>
+            <span id="viewEmpEmail">--</span>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); font-size: 12px; display: block;">Phone</span>
+            <span id="viewEmpPhone">--</span>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); font-size: 12px; display: block;">Joining Date</span>
+            <span id="viewEmpJoining">--</span>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); font-size: 12px; display: block;">Eligibility Status</span>
+            <span id="viewEmpStatus" class="badge-pill badge-neutral">--</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="App.closeModal('viewEmployeeModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/employees.js"></script>
+  <script src="js/attendance.js"></script>
+</body>
+</html>

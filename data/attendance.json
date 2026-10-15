@@ -1,0 +1,162 @@
+[
+  {
+    "id": "ATT-540960",
+    "employeeId": "EMP009",
+    "employeeName": "Anirudh Suryavanshi",
+    "department": "Engineering",
+    "date": "2026-10-15",
+    "weekLabel": "Cycle ending 2026-10-15",
+    "days": [
+      "P",
+      "A",
+      "P",
+      "A",
+      "P"
+    ],
+    "presentDays": 3,
+    "percentage": 60,
+    "status": "Not Eligible",
+    "source": "Web Attendance Portal",
+    "notes": "Attendance below 75% threshold"
+  },
+  {
+    "id": "ATT-1002",
+    "employeeId": "EMP002",
+    "employeeName": "Priya Patel",
+    "department": "Human Resources",
+    "date": "2026-10-09",
+    "weekLabel": "Week 41 (Oct 05 - Oct 09, 2026)",
+    "days": [
+      "P",
+      "P",
+      "P",
+      "A",
+      "P"
+    ],
+    "presentDays": 4,
+    "percentage": 80,
+    "status": "Eligible",
+    "source": "Web Attendance Portal",
+    "notes": "Approved leave on Day 4"
+  },
+  {
+    "id": "ATT-1003",
+    "employeeId": "EMP003",
+    "employeeName": "Rohan Verma",
+    "department": "Engineering",
+    "date": "2026-10-09",
+    "weekLabel": "Week 41 (Oct 05 - Oct 09, 2026)",
+    "days": [
+      "P",
+      "A",
+      "P",
+      "A",
+      "P"
+    ],
+    "presentDays": 3,
+    "percentage": 60,
+    "status": "Not Eligible",
+    "source": "Web Attendance Portal",
+    "notes": "Attendance below 75% threshold"
+  },
+  {
+    "id": "ATT-1004",
+    "employeeId": "EMP004",
+    "employeeName": "Ananya Iyer",
+    "department": "Quality Assurance",
+    "date": "2026-10-09",
+    "weekLabel": "Week 41 (Oct 05 - Oct 09, 2026)",
+    "days": [
+      "P",
+      "P",
+      "P",
+      "P",
+      "A"
+    ],
+    "presentDays": 4,
+    "percentage": 80,
+    "status": "Eligible",
+    "source": "Web Attendance Portal",
+    "notes": "Onsite client visit on Day 5"
+  },
+  {
+    "id": "ATT-1005",
+    "employeeId": "EMP005",
+    "employeeName": "Vikram Malhotra",
+    "department": "Operations",
+    "date": "2026-10-09",
+    "weekLabel": "Week 41 (Oct 05 - Oct 09, 2026)",
+    "days": [
+      "A",
+      "P",
+      "A",
+      "P",
+      "P"
+    ],
+    "presentDays": 3,
+    "percentage": 60,
+    "status": "Not Eligible",
+    "source": "Web Attendance Portal",
+    "notes": "Attendance below 75% threshold"
+  },
+  {
+    "id": "ATT-1006",
+    "employeeId": "EMP006",
+    "employeeName": "Sneha Reddy",
+    "department": "Product",
+    "date": "2026-10-09",
+    "weekLabel": "Week 41 (Oct 05 - Oct 09, 2026)",
+    "days": [
+      "P",
+      "P",
+      "P",
+      "P",
+      "P"
+    ],
+    "presentDays": 5,
+    "percentage": 100,
+    "status": "Eligible",
+    "source": "Web Attendance Portal",
+    "notes": "Perfect attendance"
+  },
+  {
+    "id": "ATT-1007",
+    "employeeId": "EMP007",
+    "employeeName": "Karan Mehra",
+    "department": "Finance",
+    "date": "2026-10-09",
+    "weekLabel": "Week 41 (Oct 05 - Oct 09, 2026)",
+    "days": [
+      "P",
+      "P",
+      "A",
+      "P",
+      "P"
+    ],
+    "presentDays": 4,
+    "percentage": 80,
+    "status": "Eligible",
+    "source": "Java Program Execution",
+    "notes": "Eligible for monthly bonus"
+  },
+  {
+    "id": "ATT-1008",
+    "employeeId": "EMP008",
+    "employeeName": "Diya Sengupta",
+    "department": "Engineering",
+    "date": "2026-10-09",
+    "weekLabel": "Week 41 (Oct 05 - Oct 09, 2026)",
+    "days": [
+      "A",
+      "A",
+      "P",
+      "P",
+      "P"
+    ],
+    "presentDays": 3,
+    "percentage": 60,
+    "status": "Not Eligible",
+    "source": "Java Program Execution",
+    "notes": "Below minimum requirement"
+  }
+]

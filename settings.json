@@ -1,0 +1,13 @@
+{
+  "java.project.sourcePaths": [
+    "backend/src/original",
+    "backend/src/main/java"
+  ],
+  "java.compile.nullAnalysis.mode": "automatic",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "backend/node_modules": false
+  }
+}
